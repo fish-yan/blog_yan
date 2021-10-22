@@ -11,11 +11,11 @@ class FYEventBus {
 
   void on(eventName, EventCallback callback) {
     if (eventName == null || callback == null) return;
-    _emap[eventName] ??= new List<EventCallback>();
+    _emap[eventName] ??= new List.empty();
     _emap[eventName].add(callback);
   }
 
-  void off(eventName, [EventCallback callback]) {
+  void off(eventName, [EventCallback? callback]) {
     var list = _emap[eventName];
     if (eventName == null || list == null) return;
     if (callback == null) {

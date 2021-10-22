@@ -6,7 +6,7 @@ class BlogPreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String markdownData = ModalRoute.of(context).settings.arguments;
+    String markdownData = ModalRoute.of(context)?.settings.arguments as String;
     
     return Scaffold(
       appBar: AppBar(title: Text("预览"),),

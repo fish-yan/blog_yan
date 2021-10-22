@@ -1,7 +1,7 @@
 import 'package:blog_yan/model/blog.dart';
 import 'package:blog_yan/utils/fy_event_bus.dart';
 import 'package:blog_yan/utils/fy_routers.dart';
-import 'package:data_plugin/bmob/bmob_query.dart';
+import 'package:leancloud_storage/leancloud.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -16,16 +16,16 @@ class BlogListPage extends StatefulWidget {
 
 class _BlogListPageState extends State<BlogListPage> with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
-  List<Blog> _list = List();
+  List<Blog> _list = [];
   int _page = 0;
 
   @override
   void initState() {
     super.initState();
     _httpBlogList();
-    bus.on("publish", (arg) {
-      _httpBlogList();
-    });
+    // bus.on("publish", (arg) {
+    //   _httpBlogList();
+    // });
   }
 
   @override
@@ -116,20 +116,18 @@ class _BlogListPageState extends State<BlogListPage> with AutomaticKeepAliveClie
     );
   }
 
-  _httpBlogList() {
-    BmobQuery<Blog> query = BmobQuery();
-    query.setSkip(10 * _page);
-    query.setLimit(10);
-    query.setOrder("-date");
-    query.addWhereEqualTo("category", widget.category);
-    query.queryObjects().then((List<dynamic> data) {
-      _list = data.map((e) => Blog.fromJson(e)).toList();
-      if (_list.isNotEmpty) {
-        setState(() {});
-      }
-      _refreshController.loadComplete();
-      _refreshController.refreshCompleted();
+  _httpBlogList() async {
+    LCQuery<Blog> query = LCQuery("Blog");
+    query.whereEqualTo("category", widget.category);
+    query.limit(10);
+    query.skip(10 * _page);
+    query.orderByDescending("date");
+    List<Blog>? list = await query.find();
+    setState(() {
+      _list = list!;
     });
+    _refreshController.loadComplete();
+    _refreshController.refreshCompleted();
   }
 
   @override

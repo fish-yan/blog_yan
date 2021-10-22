@@ -8,10 +8,10 @@ class FYPreview extends StatelessWidget {
   FYPreview(this.data, {this.tocController}):super();
 
   final String data;
-  final TocController tocController;
+  final TocController? tocController;
   @override
   Widget build(BuildContext context) {
-    String text = data?.trim();
+    String text = data.trim();
     var empty = data == null || text.isEmpty;
     return Container(
         margin: EdgeInsets.all(10),
@@ -20,7 +20,7 @@ class FYPreview extends StatelessWidget {
           color: Colors.grey[100],
           borderRadius: BorderRadius.all(Radius.circular(6)),
           border: Border.all(
-            color: Colors.grey[200],
+            color: Colors.grey[200]!,
             width: 1
           )
         ),
@@ -31,7 +31,7 @@ class FYPreview extends StatelessWidget {
           styleConfig: StyleConfig(
             pConfig: PConfig(
               onLinkTap: (url) {
-                _launchURL(url);
+                _launchURL(url!);
               },
             )
           ),
