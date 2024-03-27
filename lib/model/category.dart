@@ -1,22 +1,11 @@
-import 'package:data_plugin/bmob/table/bmob_object.dart';
-import 'package:json_annotation/json_annotation.dart';
-part 'category.g.dart';
+import 'package:leancloud_storage/leancloud.dart';
 
-@JsonSerializable()
-class Category extends BmobObject {
+class Category extends LCObject {
 
-  String category = "";
+  String get category => this["category"];
 
-  Category();
+  set category(String value) => this["category"] = value;
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CategoryToJson(this);
-
-  @override
-  Map getParams() {
-    return toJson();
-  }
-
+  Category() : super("Category");
 
 }

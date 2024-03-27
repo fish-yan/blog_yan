@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class FYTextField extends StatelessWidget {
 
   FYTextField({this.controller, this.scrollController, this.onChanged}):super();
-  final TextEditingController controller;
-  final ScrollController scrollController;
-  final Function(String) onChanged;
+  final TextEditingController? controller;
+  final ScrollController? scrollController;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class FYTextField extends StatelessWidget {
           color: Colors.grey[100],
           borderRadius: BorderRadius.all(Radius.circular(6)),
           border: Border.all(
-            color: Colors.grey[200],
+            color: Colors.grey[200]!,
             width: 1
           )
         ),

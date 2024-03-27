@@ -1,15 +1,20 @@
 import 'package:blog_yan/utils/fy_routers.dart';
-import 'package:data_plugin/bmob/bmob.dart';
+import "package:leancloud_storage/leancloud.dart";
 import 'package:flutter/material.dart';
 
+import 'model/blog.dart';
+import 'model/category.dart';
+
+final appId = "0e7yy2Fzv9DNv9qXYRrRWQaC-MdYXbMMI";
+final appKey = "rs2AN2MrGqaRH5u8xAPib2y1";
 void main() {
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Bmob.init("https://api2.bmob.cn", "77088ce1637804d97be523f42e14d844", "d7775dba9949a9346dc58f95b005c484");
-    
+    LeanCloud.initialize(appId, appKey, queryCache: new LCQueryCache());
+    registModelClass();
     return new MaterialApp(
       title: 'BlogYan',
       debugShowCheckedModeBanner: false,
@@ -18,5 +23,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: FYRouters.routers(context),
     );
+  }
+
+  registModelClass() {
+    LCObject.registerSubclass<Category>("Category", () => new Category());
+    LCObject.registerSubclass<Blog>("Blog", () => new Blog());
   }
 }

@@ -1,7 +1,7 @@
 import 'package:blog_yan/model/category.dart';
 import 'package:blog_yan/pages/blog_list_page.dart';
 import 'package:blog_yan/utils/fy_routers.dart';
-import 'package:data_plugin/bmob/bmob_query.dart';
+import 'package:leancloud_storage/leancloud.dart';
 import 'package:flutter/material.dart';
 
 class BlogListMainPage extends StatefulWidget {
@@ -10,7 +10,7 @@ class BlogListMainPage extends StatefulWidget {
 }
 
 class _BlogListMainPageState extends State<BlogListMainPage> {
-  List<Category> _categorys = List();
+  List<Category> _categorys = [];
 
   @override
   void initState() {
@@ -45,13 +45,11 @@ class _BlogListMainPageState extends State<BlogListMainPage> {
     );
   }
 
-  _httpGetCategorys() {
-    BmobQuery<Category> query = BmobQuery();
-    query.queryObjects().then((value) {
-      _categorys = value.map((e) => Category.fromJson(e)).toList();
-      setState(() {
-        
-      });
+  _httpGetCategorys() async {
+    LCQuery<Category> query = LCQuery("Category");
+    List<Category>? categorys = await query.find();
+    setState(() {
+      _categorys = categorys!;
     });
   }
 }
